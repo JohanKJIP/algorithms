@@ -147,7 +147,6 @@ class TestDijkstra(unittest.TestCase):
         g = Dijkstra(0)
         g.graph = []
 
-        #self.assertEqual(g.dijkstra(0), [])
         self.assertEqual(g.dijkstra_using_heap(0), [])
         self.assertEqual(g.dijkstra_fib_heap(0), [])
 
