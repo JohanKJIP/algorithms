@@ -112,9 +112,17 @@ class FibonacciHeap:
         at the end of this heap's root list and connecting the heads 
         and tails.
         """
-        tail = self.root_list.left
-        heap2_tail = heap2.root_list.left
+        if heap2.root_list == None:
+            return
+        if self.root_list == None:
+            self.root_list = heap2.root_list
+            self.min_node = heap2.min_node
+            self.total_nodes = heap2.total_nodes
+            return
 
+        heap2_tail = heap2.root_list.left
+        tail = self.root_list.left
+        
         # the tail of heap 2 is now the end of the list
         self.root_list.left = heap2_tail
         heap2_tail.right = self.root_list
@@ -156,13 +164,10 @@ class FibonacciHeap:
         z = self.min_node
         if z != None:
             # add children to the root list
-            child = z.child
-            while child != None:
-                self._append_root(child)
-
-                child = child.right
-                if child == z.child:
-                    break
+            if z.child != None:
+                children = [x for x in self._iterate(z.child)]
+                for child in children:
+                    self._append_root(child)
             
             self._remove_root(z)
             # only node and no children
@@ -318,16 +323,6 @@ class FibonacciHeap:
 
 if __name__ == "__main__":
     fheap = FibonacciHeap()
-    fheap.insert(4)
-    fheap.insert(50)
-    fheap.insert(7)
-    fheap.insert(55)
-    print(fheap)
-    fheap.extract_min_node()
-    print(fheap)
-    print(fheap.root_list)
-    print(fheap.root_list.child)
-    fheap.insert(90)
-    fheap.insert(87)
-    print(fheap)
+    fheap2 = FibonacciHeap()
+    fheap.merge(fheap2)
 

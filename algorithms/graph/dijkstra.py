@@ -1,5 +1,5 @@
 # Dijkstra's single source shortest path algorithm
-from algorithms.heap import BinaryHeap
+from algorithms.heap import BinaryHeap, FibonacciHeap
 
 
 class Dijkstra:
@@ -53,6 +53,33 @@ class Dijkstra:
 
         while heap.currentSize > 0:
             u = heap.remove_min()
+            curWeight = u[0]
+            curNode = u[1]
+
+            # go over all vertices adjacent to u
+            for v in range(self.vertices):
+                if (
+                    self.graph[curNode][v] > 0
+                    and dist[v] > dist[curNode] + self.graph[curNode][v]
+                ):
+                    dist[v] = dist[curNode] + self.graph[curNode][v]
+                    t = (dist[v], v)
+                    heap.insert(t)
+        return dist
+
+    def dijkstra_fib_heap(self, src):
+        if self.vertices == 0:
+            return []
+
+        heap = FibonacciHeap()
+        dist = [float("inf")] * self.vertices
+
+        tuple = (0, src)
+        heap.insert(tuple)
+        dist[src] = 0
+
+        while heap.total_nodes > 0:
+            u = heap.extract_min_node().key
             curWeight = u[0]
             curNode = u[1]
 
