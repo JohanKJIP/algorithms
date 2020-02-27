@@ -121,11 +121,13 @@ Check 2: Function should return the minimum node (node with the smallest  data)
 in the heap.
 
 2. **FIB-REQ2**: FIND AND EXTRACT THE MINIMUM NODE
-Complexity: Should be amortised O(logn)
+
+Complexity: Should be O(logn)
 
 Check 1: Should fetch the minimum node and remove it from the heap. Make sure a new minimum node is selected.
 
 3. **FIB-REQ3**: INSERT
+
 Complexity: Should be constant O(1)
 
 Empty heap inserts:
@@ -144,6 +146,7 @@ Check 5: If the inserted node is smaller than min_node, it should be swapped
 for the inserted node.
 
 4. **FIB-REQ4**: DECREASE THE DATA KEY OF A NODE
+
 Complexity: Should be amortised O(1)
 
 Check 1: Decrease the key of the min node. Should just decrease it, no problem.
@@ -153,6 +156,7 @@ Check 2: Decrease the child key of min node to a value lower than the min node. 
 Check 3: Run coverage and make more tests.
 
 5. **FIB-REQ5**: MERGE TWO HEAPS
+
 Complexity: Should be constant O(1)
 
 Check 1: The resulting heap's root list should be a concatenation of
@@ -165,6 +169,7 @@ Check 3: Merging an empty heap with a non-empty heap should set
  the min_node to the second heaps min_node.
 
 6. **FIB-REQ6** DELETE NODE
+
 Complexity: O(logn)
 
 Check 1: Delete the root element.
