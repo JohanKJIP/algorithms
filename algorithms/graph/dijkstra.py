@@ -68,6 +68,10 @@ class Dijkstra:
         return dist
 
     def dijkstra_fib_heap(self, src):
+        """
+        Dijkstra's using a Fibnacci heap. Theoretically reducing
+        the time complexity of the algorithm. 
+        """
         if self.vertices == 0:
             return []
 
