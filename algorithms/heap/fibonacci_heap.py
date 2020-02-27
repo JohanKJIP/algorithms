@@ -162,7 +162,7 @@ class FibonacciHeap:
         if z != None:
             # add children to the root list
             if z.child != None:
-                children = [x for x in self._iterate(z.child)]
+                children = [x for x in self.iterate(z.child)]
                 for child in children:
                     self._append_root(child)
             
