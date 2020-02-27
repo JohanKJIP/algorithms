@@ -231,7 +231,6 @@ OK
 ----
 
 ### Patch/fix
-
 The patch can be seen here: https://github.com/keon/algorithms/pull/639. It includes:
 - A new data structure, Fibonacci heap.
 - Two new Dijkstra methods, one using a Binary heap and the other using a Fibonacci heap.
@@ -255,15 +254,15 @@ We have created a pull request to the original repository, see issue https://git
 
 |                                      | Emma| Diego|Johan | Jonas| Olivia |
 |------------------------------    |------    |-------    |-------    |-------    |--------    |
-| plenary discussions/meetings 3   |  3        | 3         | 2         | 3          | 
+| plenary discussions/meetings 3   |  3        | 3         | 2         | 3          | 3
 | discussions                      |  2        |  2         | 2         |           | 2          |
-| reading documentation (& research)|  1        |  1        | 4       | 2      | 1         | 
+| reading documentation (& research)|  1        |  1        | 4       | 2      | 2         | 
 | configuration and setup          |  1        |  1         | 1          | 1          | 1           |
-| analyzing code/output            |  2       |  1         | 3         |           | 1          |
-| writing documentation            |  4       |  4         | 8         |           | 4           |
-| writing code                     |  3       | 3          | 8        |   3        | 3         |
+| analyzing code/output            |  2       |  1         | 3         |           | 3          |
+| writing documentation            |  4       |  4         | 8         |           | 9           |
+| writing code                     |  3       | 3          | 8        |   3        | 5         |
 | running code                     |  1       |  1         |  1         |   1        | 1          |
-| total                                | x        | x         | 27         | x         | x          |
+| total                                | x        | x         | 27         | x         | 24          |
 
 ----
 
