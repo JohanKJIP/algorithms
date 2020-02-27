@@ -69,31 +69,38 @@ class Dijkstra:
 
     def dijkstra_fib_heap(self, src):
         """
-        Dijkstra's using a Fibnacci heap. Theoretically reducing
-        the time complexity of the algorithm. 
+        Dijkstra's using a Fibonacci heap. Theoretically reduces
+        the time complexity of the algorithm. In practice Fib heaps
+        have high constants and is therefore sometimes slower than
+        a normal binomial heap.
         """
         if self.vertices == 0:
             return []
 
         heap = FibonacciHeap()
-        dist = [float("inf")] * self.vertices
 
-        tuple = (0, src)
-        heap.insert(tuple)
+        dist = [float("inf")] * self.vertices
+        nodes = []
+
+        source = heap.insert((0, src))
+        nodes.append(source)
+
+        for v in range(1, self.vertices):
+            inserted_node = heap.insert((dist[v], v))
+            nodes.append(inserted_node)
+
         dist[src] = 0
 
-        while heap.total_nodes > 0:
-            u = heap.extract_min_node().key
-            curWeight = u[0]
-            curNode = u[1]
+        for v in range(self.vertices):
+            node = heap.extract_min_node()
+            distance, node_id = node.key
 
             # go over all vertices adjacent to u
-            for v in range(self.vertices):
+            for u in range(self.vertices):
                 if (
-                    self.graph[curNode][v] > 0
-                    and dist[v] > dist[curNode] + self.graph[curNode][v]
+                    self.graph[node_id][u] > 0
+                    and dist[u] > distance + self.graph[node_id][u]
                 ):
-                    dist[v] = dist[curNode] + self.graph[curNode][v]
-                    t = (dist[v], v)
-                    heap.insert(t)
+                    dist[u] = dist[node_id] + self.graph[node_id][u]
+                    heap.decrease_key(nodes[u], (dist[u], u))
         return dist
