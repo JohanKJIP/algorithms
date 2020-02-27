@@ -155,6 +155,7 @@ class FibonacciHeap:
             if node.key < self.min_node.key:
                 self.min_node = node
         self.total_nodes += 1
+        return node
 
     def extract_min_node(self):
         """
