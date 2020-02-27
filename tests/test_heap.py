@@ -138,8 +138,55 @@ class TestFibonacciHeap(unittest.TestCase):
     def test_fibonacci_heap_decrease_key(self):
         """
         Test the decrease_key method of the fibonacci heap
+        1. Should return the new min value after decreased key.
+        2. Verifies that the heap looks as expected after decreased key.
+        3. Checks to see that it the heap does not still contain the value 
+            that has been decreased.
+        4. Expects an expection to be thrown when decrease key value is 
+            larger than min. 
+        5. Decreases the key of a child so that it is smaller than the parent,
+            then verifies that the node with decreased key (which is now min_node) is in root_list.
         """
+        fh = fibonacci_heap.FibonacciHeap()
+        data = [4, 7, 6, 3, 5]
+        for x in data:
+            fh.insert(x)
+        fh.decrease_key(fh.find_min(), 2)
+        
+        # test case 1
+        self.assertEqual(fh.find_min().key, 2)
 
+        # test case 2: Positive
+        decrease_data = [4, 7, 6, 2, 5]
+        for x in fh.iterate(fh.root_list):
+            self.assertTrue(x.key in decrease_data)
+
+        # test case 3: Negative
+        nodes = fh.get_all_nodes()
+        for i in nodes:
+            self.assertFalse(i.key == 3)
+
+        # test case 4: Exception
+        with self.assertRaises(Exception):
+            fh.decrease_key(fh.find_min(), 8)
+
+        # test case 5: After extract 
+        fh.extract_min_node()
+        self.assertEqual(fh.root_list.child.right.key, 5)
+        fh.decrease_key(fh.root_list.child, 1)
+        self.assertEqual(fh.root_list.child.key, 5)
+        self.assertEqual(fh.find_min().key, 1)
+        self.assertTrue(fh.find_min() in fh.iterate(fh.root_list))
+
+        # test case 6: Only one child
+        fh2 = fibonacci_heap.FibonacciHeap()
+        fh2.insert(4)
+        fh2.insert(7)
+        fh2.extract_min_node()
+        fh2.decrease_key(fh2.find_min(), 2)
+        self.assertEqual(fh2.root_list.child, None)
+
+        
     def test_fibonacci_heap_merge(self):
         """
         Test that the merge method of the fibonacci heap merges two
@@ -166,7 +213,7 @@ class TestFibonacciHeap(unittest.TestCase):
 
         # test case 1
         a.merge(b)
-        for x in a._iterate(a.root_list):
+        for x in a.iterate(a.root_list):
             self.assertTrue(x.key in a_data or x.key in b_data)
 
         # test case 2
@@ -201,7 +248,7 @@ class TestFibonacciHeap(unittest.TestCase):
         del_node_key = fh.root_list.key
         fh.delete(fh.root_list)
         self.assertEqual(fh.total_nodes, 4)
-        nodes = self.get_all_nodes(fh, fh.root_list)
+        nodes = fh.get_all_nodes()
         for node in nodes:
             self.assertTrue(node.key != del_node_key)
 
@@ -209,18 +256,9 @@ class TestFibonacciHeap(unittest.TestCase):
         del_node_key = fh.root_list.child.key
         fh.delete(fh.root_list.child)
         self.assertEqual(fh.total_nodes, 3)
-        nodes = self.get_all_nodes(fh, fh.root_list)
+        nodes = fh.get_all_nodes()
         for node in nodes:
             self.assertTrue(node.key != del_node_key)
-
-    def get_all_nodes(self, heap, node):
-        nodes = []
-        for node in heap._iterate(node):
-            nodes.append(node)
-            if node.child:
-                nodes += self.get_all_nodes(heap, node.child)
-        return nodes
-
 
 if __name__ == "__main__":
     unittest.main()

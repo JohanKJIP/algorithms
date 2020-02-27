@@ -41,13 +41,9 @@ class FibonacciHeap:
             self.degree = 0
             self.mark = False
 
-        def __str__(self):
-            return f"key: {self.key}, child: {self.child.key if self.child != None else None}, left: {self.left.key if self.left != None else None}, right: {self.right.key if self.right != None else None}"
-
-        def __repr__(self):
-            return str(self.key)
-
     def __init__(self):
+        # the root list is a list of rooted trees
+        # the min_node is the node with lowest key value in the heap
         self.min_node = self.root_list = None
         self.total_nodes = 0
 
@@ -86,7 +82,7 @@ class FibonacciHeap:
             self.root_list = node.right
         return node
 
-    def _iterate(self, head):
+    def iterate(self, head):
         """
         Iterate the fib heap.
         """
@@ -187,7 +183,7 @@ class FibonacciHeap:
         """
         A = [None] * self.total_nodes
         # process root list
-        root_nodes = [x for x in self._iterate(self.root_list)]
+        root_nodes = [x for x in self.iterate(self.root_list)]
         for root in root_nodes:
             x = root
             d = x.degree
@@ -301,29 +297,21 @@ class FibonacciHeap:
         self.decrease_key(node, -sys.maxsize - 1)
         self.extract_min_node()
 
-    def __str__(self):
-        # TODO: remove this at a later stage.
-        node = self.root_list
-        if node is None:
-            return "heap is empty"
-        else:
-            result = "==========\nroot list: "
-            nodes = [x for x in self._iterate(self.root_list)]
-            for node in nodes:
-                if node != self.root_list:
-                    result += " --> "
-                result += str(node.key)
-                node = node.right
-
-                if node == self.root_list:
-                    break
-            result += f"\nHeap has {self.total_nodes} nodes"
-            result += f"\nmin_node-node: {self.find_min().key} \n=========="
-            return result
-
-
-if __name__ == "__main__":
-    fheap = FibonacciHeap()
-    fheap2 = FibonacciHeap()
-    fheap.merge(fheap2)
+    def get_all_nodes(self):
+        """
+        Get all nodes in the heap in a list.
+        """
+        return self._get_nodes(self.root_list)
+    
+    def _get_nodes(self, node):
+        """
+        Get all neighbours  of node and recursively find children to
+        those nodes and place them into a list.
+        """
+        nodes = []
+        for n in self.iterate(node):
+            nodes.append(n)
+            if n.child:
+                nodes += self._get_nodes(n.child)
+        return nodes
 
