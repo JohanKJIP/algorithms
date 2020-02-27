@@ -44,7 +44,7 @@ Yes. We will continue with this project.
 
 ## UML class diagram and its description
 
-TODO
+![uml diagram](uml.png)
 
 The UML class diagram above shows the relevant classes that have been changed or added in this project. It includes all the public functions along with the parameters to give an overview of the class and the class structure.
 
@@ -85,4 +85,220 @@ A version of Dijkstra’s algorithm using a list exists in the project. In order
 ----
 
 ### Project plan
+
+|                               	| fri 	| mon 	| tue 	| wed 	| thu 	|
+|-------------------------------	|-----	|-----	|-----	|-----	|-----	|
+| Write requirements            	| x   	|     	|     	|     	|     	|
+| Write tests                   	|     	| x   	| x   	|     	|     	|
+| Implement dijkstra's          	|     	|     	| x   	| x   	|     	|
+| Implement Fibonacci heap      	|     	| x   	| x   	| x   	|     	|
+| Run coverage report           	|     	|     	|     	|     	| x   	|
+| Add tests to improve coverage 	|     	|     	|     	|     	| x   	|
+| Write documentation           	|     	| x   	| x   	| x   	| x   	|
+
+----
+
+### Requirements affected by functionality being refactored
+
+#### Dijkstra’s requirements
+1. **DIJ-REQ1**: The algorithm should be using a priority queue.
+*DIJ-REQ2*: Given an empty graph as input, the function should return an empty array.
+2. **DIJ-REQ3**: Given a source and a non-empty graph with no edges as input, the function should return an array with distance to the source itself set to 0 and all remaining distances set to infinity.
+3. **DIJ-REQ4**: Given source and non-empty graph the function returns the shortest path to each vertice in the graph.
+
+#### Requirements for Dijkstra's algorithm using min-heap
+1. **MIN-REQ1**: Use already existing data structure for binary heap from the project.
+2. **MIN-REQ2**: The time complexity should be  O((E+V)log(V))
+
+#### Fibonacci heap requirements:
+1. **FIB-REQ1**: FIND MINIMUM NODE
+
+Complexity: Should be constant O(1)
+
+Check 1: If the heap is empty, the minimum node should be none/NULL.
+
+Check 2: Function should return the minimum node (node with the smallest  data)
+in the heap.
+
+2. **FIB-REQ2**: FIND AND EXTRACT THE MINIMUM NODE
+Complexity: Should be amortised O(logn)
+
+Check 1: Should fetch the minimum node and remove it from the heap. Make sure a new minimum node is selected.
+
+3. **FIB-REQ3**: INSERT
+Complexity: Should be constant O(1)
+
+Empty heap inserts:
+
+Check 1: Insert to an empty heap should set the size to 1.
+
+Check 2: Insert to an empty heap should set min_node to the inserted node.
+
+Non-empty heap inserts:
+
+Check 3: Insert to non-empty heap should increase the size by 1.
+
+Check 4: If the inserted node is larger than min_node, it should be unchanged.
+
+Check 5: If the inserted node is smaller than min_node, it should be swapped
+for the inserted node.
+
+4. **FIB-REQ4**: DECREASE THE DATA KEY OF A NODE
+Complexity: Should be amortised O(1)
+
+Check 1: Decrease the key of the min node. Should just decrease it, no problem.
+
+Check 2: Decrease the child key of min node to a value lower than the min node. Should place the child in the root list and set min node to the child.
+
+Check 3: Run coverage and make more tests.
+
+5. **FIB-REQ5**: MERGE TWO HEAPS
+Complexity: Should be constant O(1)
+
+Check 1: The resulting heap's root list should be a concatenation of
+ heap1's and heap2's root lists.
+
+Check 2: Merging a heap with an empty heap should not change the
+ original heap.
+
+Check 3: Merging an empty heap with a non-empty heap should set
+ the min_node to the second heaps min_node.
+
+6. **FIB-REQ6** DELETE NODE
+Complexity: O(logn)
+
+Check 1: Delete the root element.
+
+Check 2: Delete a child in a way so that cut and cascade cut is used. Should remove the node but keep the correct structure.
+
+----
+
+#### Optional (point 3): trace tests to requirements.
+The tests added for the functions took the requirement in consideration and for all the functional requirements at least one test was created to ensure that we upheld the requirement. Each test created in relation to a requirement is listed below along with the git diff related to the test.
+
+* **DIJ-REQ2**: test_dijkstra_empty_graph in test_graph.py. 
+    * git diff ebaeb7a0953eb23a85aa44276af8c23b15cd77e2 tests/test_graph.py
+* **DIJ-REQ3**: test_dijkstra_no_edges in test_graph.py. 
+    * git diff f2eaf69b16d516c6e6226763da0a88d10238a36c tests/test_graph.py 
+* **DIJ-REQ4**: Multiple tests was added
+    * test_dijkstra_small_graph in test_graph.py
+        * git diff c75b85d8902560aa3d557a6a14340e96b2b327b5 tests/test_graph.py
+    * test_dijkstra_large_graph in test_graph.py
+        * git diff fd7f4025677717da5d651db03c89cd2ec8296716 tests/test_graph.py
+
+For the requirements that are not possible or reasonable to test using unit tests, such as **DIJ-REQ1**, the algorithm should use a priority queue, we manually ensured that this was the case. Both Dijkstra functions added use priority queues since binary heap and Fibonacci heaps can be used as priority queues. When it came to time complexity we ensured that the methods/data structures were implemented correctly and took for granted that the advertised complexity is correct.
+
+We added tests for the Fibonacci heap according to the aforementioned requirements. See `git diff b9d4c209d95b479057a4a02cc0b6ffdae7fbe24b` for the added tests, where each test method for fib corresponds to a requirement.
+
+----
+
+### Existing test cases relating to refactored code
+Since we are implementing a new function and a new datastructure no test cases previously exist. The other version of Dijkstra’s algorithm that doesn’t use priority queue exists and the tests for this function pass. 
+
+**Dijkstras tests**
+```
+Ran 1 test in 0.000s
+
+OK
+```
+The test calls the function with a valid arbitrary graph and a valid source and makes sure that the correct distances are returned.
+
+----
+
+### Test results
+
+We added four more Dijkstra’s tests according to the requirements, which was used to test both the binary heap and Fibonacci version. The Fibonacci heap got one test for each public function, see requirements. 
+
+**Dijkstras tests**
+```
+Ran 5 tests in 0.002s
+
+OK
+```
+
+**Fibonacci heap tests**
+```
+Ran 6 tests in 0.001s
+
+OK
+```
+
+----
+
+### Patch/fix
+
+The patch can be seen here: https://github.com/keon/algorithms/pull/639. It includes:
+- A new data structure, Fibonacci heap.
+- Two new Dijkstra methods, one using a Binary heap and the other using a Fibonacci heap.
+- Additional Dijkstra tests.
+- Fibonacci heap tests.
+
+----
+
+#### Optional (point 4): the patch is clean.
+The patch is clean and does not comment out unused code and does not produce unnecessary output.
+
+----
+
+#### Optional (point 5): considered for acceptance (passes all automated checks).
+
+We have created a pull request to the original repository, see issue https://github.com/keon/algorithms/pull/639.
+
+----
+
+## Effort spent
+
+|                                      | Emma| Diego|Johan | Jonas| Olivia |
+|------------------------------    |------    |-------    |-------    |-------    |--------    |
+| plenary discussions/meetings 3   |  3        | 3         | 2         | 3          | 
+| discussions                      |  2        |  2         | 2         |           | 2          |
+| reading documentation (& research)|  1        |  1        | 4       | 2      | 1         | 
+| configuration and setup          |  1        |  1         | 1          | 1          | 1           |
+| analyzing code/output            |  2       |  1         | 3         |           | 1          |
+| writing documentation            |  4       |  4         | 8         |           | 4           |
+| writing code                     |  3       | 3          | 8        |   3        | 3         |
+| running code                     |  1       |  1         |  1         |   1        | 1          |
+| total                                | x        | x         | 27         | x         | x          |
+
+----
+
+## Overall experience
+
+#### What are your main takeaways from this project? What did you learn?
+One of the main takeaways from this project was time management. It became clear that it takes a lot of time to understand the project and the previously written code. When implementing Dijkstra’s function using binary heap we used a previously existing implementation of a binary heap in the project. It took some time to understand how to use it and if it was going to work in our specific case. Writing tests also take more time than what might be assumed and in general, more time is spent understanding previous code, writing test and documentation than actually writing the code itself.
+
+We also saw the importance of relating the requirements to the finished product both by relating the requirements to unit tests but also in general just going over the requirements after the project was finished to ensure we upheld them. If the tests don't test the requirements it is a risk that some requirements aren’t achieved by the end product. 
+
+Furthermore, we learnt how Fibonacci heaps work, something everyone in the group was unfamiliar with before.
+
+----
+
+#### Optional (point 6): How would you put your work in context with best software engineering practice?
+
+The essence kernel represents the common grounds and defines the key elements of software engineering. It’s formed by alphas, activity spaces, and competences in the three areas of concern representing the essential elements of software engineering:
+
+- Costumer
+- Solution 
+- Endeavor 
+
+**Alphas**
+
+The alphas represent the important things to work with in software engineering. 
+
+The team first searched for an issue, then figured out its purpose and the stakeholders needs. This goes in line with the Opportunity alpha in the customer area of concern. The team read the issue description to understand the reason why the issue was created, and what the stakeholder needs are.
+
+The “requirements” alpha connected to the solution area of concern, is described as the need that the software system must fulfil to address the opportunity and satisfy the stakeholders. This was also fulfilled since the team first listed the requirements for each issue in order to create a solution that satisfies the stakeholder. Solutions to a customer’s problem is the goal of software engineering. Understanding the requirements before implementation ensures that the team is working in the right direction (stakeholder needs). 
+
+The “work” alpha from the endeavor area of concern is similar to the way the team has worked. The team performed all the physical and mental tasks needed to achieve the desired result, ex: planning, communicating, and performing the work. 
+
+**Activity spaces**
+
+Activity spaces are broad containers of essential activities involved in the kernels 3 areas of concern. The activity space called “understanding stakeholder needs” was half fulfilled since it implies actively engaging with the stakeholders (the person in charge of the repository). The team only had access to the issue description, which was enough to create requirements. The stakeholder had been inactive for a long time, and the team was not expecting a response any time soon. Active communication with the stakeholder could have resulted in a better solution since receiving feedback would contribute to a more satisfied stakeholder. 
+
+Regarding the ”solution” area of concern, the team fulfils the activity space “Understanding the requirements”, since we together listed all the requirements in this document before starting the work. The new feature was implemented, therefore the team also fulfils the activity space “Implements system”. 
+
+Testing is an essential part of software engineering and ensures that the system will work without issue. This is supported by the fact that “test the system” is an activity space in the essence kernel. The team fulfilled this activity by creating and performing unit-tests.
+
+“Coordinate activity” and “track progress”, from the Endeavor are of concern, are two important software engineering activity spaces. The work of the team was coordinated and the progress was tracked. This work is necessary to have a grasp of how much has been done and what needs to be done leading up to the deadline.
+
 
