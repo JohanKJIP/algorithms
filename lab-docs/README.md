@@ -256,13 +256,13 @@ We have created a pull request to the original repository, see issue https://git
 |------------------------------    |------    |-------    |-------    |-------    |--------    |
 | plenary discussions/meetings 3   |  3        | 3         | 2         | 3          | 3
 | discussions                      |  2        |  2         | 2         | 2          | 2          |
-| reading documentation (& research)|  3        |  1        | 4       | 3      | 2         | 
+| reading documentation (& research)|  3        |  4        | 4       | 3      | 2         | 
 | configuration and setup          |  1        |  1         | 1          | 1          | 1           |
-| analyzing code/output            |  3       |  1         | 3         | 4          | 3          |
-| writing documentation            |  9       |  4         | 8         | 6          | 9           |
+| analyzing code/output            |  3       |  2         | 3         | 4          | 3          |
+| writing documentation            |  9       |  9         | 8         | 6          | 9           |
 | writing code                     |  3       | 3          | 8        |   5        | 5         |
 | running code                     |  1       |  1         |  1         |   1        | 1          |
-| total                                | 25        | x         | 27         | 25         | 24          |
+| total                                | 25        | 25         | 27         | 25         | 24          |
 
 ----
 
